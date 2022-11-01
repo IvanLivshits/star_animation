@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stars for Mary 🤍</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+
+<body>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js'></script>
+    <script type="text/javascript">
+    let starsCount = 5000;
+    let stars = [];
+    class Star {
+        constructor() {
+            this.x = random(-width, width);
+            this.y = random(-height, height);
+            this.z = random(width);
+        }
+
+        update() {
+            let speed = 10;
+            this.z -= speed;
+            if (this.z < 1) {
+                this.x = random(-width, width);
+                this.y = random(-height, height);
+                this.z = width
+            }
+        }
+
+        drawStar() {
+            fill(
+                random(0,255),
+                random(0,255),
+                random(0,255)   
+            )
+            noStroke();
+
+            let sx = map(this.x / this.z, 0, 1, 0, width);
+            let sy = map(this.y / this.z, 0, 1, 0, height);
+
+            let rad = map(this.z, 0, width, 10, 0);
+            ellipse(sx, sy, rad, rad);
+        }
+    }
+
+    function setup() {
+        createCanvas(innerWidth, innerHeight);
+        for (let i = 0; i < starsCount; i++) {
+            stars[i] = new Star();
+        }
+    }
+
+    function draw() {
+        background(0, 180);
+        translate(width / 2, height / 2);
+        for (let i = 0; i < starsCount; i++) {
+            stars[i].drawStar();
+            stars[i].update()
+        }
+    }
+
+    addEventListener('resize', () => {
+        resizeCanvas(innerWidth, innerHeight);
+    })
+</script>
+</body>
+
+</html>
